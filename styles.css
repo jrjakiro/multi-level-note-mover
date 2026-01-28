@@ -1,0 +1,497 @@
+/* ============================================
+   Multi Level Note Mover - Styles
+   ============================================ */
+
+/* ============================================
+   CSS Variables (Theme Support)
+   ============================================ */
+.mlnm-settings,
+.tag-tree-container {
+	--mlnm-spacing-xs: 4px;
+	--mlnm-spacing-sm: 8px;
+	--mlnm-spacing-md: 12px;
+	--mlnm-spacing-lg: 16px;
+	--mlnm-spacing-xl: 24px;
+	--mlnm-radius-sm: 4px;
+	--mlnm-radius-md: 6px;
+	--mlnm-radius-lg: 8px;
+	--mlnm-transition: 150ms ease;
+}
+
+/* ============================================
+   Tag Tree View
+   ============================================ */
+.tag-tree-container {
+	padding: var(--mlnm-spacing-md);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+/* Header */
+.tag-tree-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: var(--mlnm-spacing-md);
+	border-bottom: 1px solid var(--background-modifier-border);
+	margin-bottom: var(--mlnm-spacing-md);
+	flex-shrink: 0;
+}
+
+.tag-tree-header h4 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-normal);
+}
+
+.tag-tree-header-buttons {
+	display: flex;
+	gap: var(--mlnm-spacing-xs);
+}
+
+.tag-tree-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: none;
+	border-radius: var(--mlnm-radius-sm);
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+	transition: all var(--mlnm-transition);
+}
+
+.tag-tree-btn:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.tag-tree-btn svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* Content Area */
+.tag-tree-content {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* Loading State */
+.tag-tree-loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100px;
+	color: var(--text-muted);
+	font-size: 13px;
+}
+
+/* Empty State */
+.tag-tree-empty {
+	text-align: center;
+	padding: var(--mlnm-spacing-xl);
+	color: var(--text-muted);
+}
+
+.tag-tree-empty p {
+	margin: var(--mlnm-spacing-sm) 0;
+}
+
+.tag-tree-empty-hint {
+	font-size: 12px;
+	opacity: 0.8;
+}
+
+/* Error State */
+.tag-tree-error {
+	text-align: center;
+	padding: var(--mlnm-spacing-xl);
+	color: var(--text-error);
+	cursor: pointer;
+}
+
+.tag-tree-error:hover {
+	text-decoration: underline;
+}
+
+/* Tree Nodes */
+.tag-tree-node {
+	margin-bottom: 2px;
+}
+
+.tag-tree-node-header {
+	display: flex;
+	align-items: center;
+	padding: var(--mlnm-spacing-xs) var(--mlnm-spacing-sm);
+	border-radius: var(--mlnm-radius-sm);
+	cursor: pointer;
+	gap: var(--mlnm-spacing-xs);
+	transition: background-color var(--mlnm-transition);
+}
+
+.tag-tree-node-header:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.tag-tree-node-header.expanded {
+	background-color: var(--background-modifier-hover);
+}
+
+.tag-tree-expand-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	color: var(--text-muted);
+}
+
+.tag-tree-expand-icon svg {
+	width: 12px;
+	height: 12px;
+}
+
+.tag-tree-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	color: var(--text-accent);
+}
+
+.tag-tree-icon svg {
+	width: 14px;
+	height: 14px;
+}
+
+.tag-tree-tag-name {
+	flex: 1;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-normal);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tag-tree-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 6px;
+	font-size: 11px;
+	font-weight: 500;
+	color: var(--text-on-accent);
+	background: var(--interactive-accent);
+	border-radius: 9px;
+	flex-shrink: 0;
+}
+
+.tag-tree-move-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: none;
+	border-radius: var(--mlnm-radius-sm);
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+	opacity: 0;
+	transition: all var(--mlnm-transition);
+	flex-shrink: 0;
+}
+
+.tag-tree-node-header:hover .tag-tree-move-btn {
+	opacity: 1;
+}
+
+.tag-tree-move-btn:hover {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.tag-tree-move-btn svg {
+	width: 14px;
+	height: 14px;
+}
+
+/* Node Content (Files & Children) */
+.tag-tree-node-content {
+	margin-left: var(--mlnm-spacing-lg);
+	padding-left: var(--mlnm-spacing-sm);
+	border-left: 1px solid var(--background-modifier-border);
+}
+
+.tag-tree-files {
+	padding: var(--mlnm-spacing-xs) 0;
+}
+
+.tag-tree-file {
+	display: flex;
+	align-items: center;
+	padding: var(--mlnm-spacing-xs) var(--mlnm-spacing-sm);
+	border-radius: var(--mlnm-radius-sm);
+	cursor: pointer;
+	gap: var(--mlnm-spacing-sm);
+	transition: background-color var(--mlnm-transition);
+}
+
+.tag-tree-file:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.tag-tree-file .tag-tree-icon {
+	color: var(--text-muted);
+}
+
+.tag-tree-file-name {
+	font-size: 12px;
+	color: var(--text-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tag-tree-file:hover .tag-tree-file-name {
+	color: var(--text-normal);
+}
+
+/* ============================================
+   Settings Panel
+   ============================================ */
+.mlnm-settings h2 {
+	margin-bottom: var(--mlnm-spacing-lg);
+}
+
+.mlnm-settings h3 {
+	margin-top: var(--mlnm-spacing-xl);
+	margin-bottom: var(--mlnm-spacing-md);
+	padding-bottom: var(--mlnm-spacing-sm);
+	border-bottom: 1px solid var(--background-modifier-border);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.mlnm-rules-desc {
+	margin-bottom: var(--mlnm-spacing-md) !important;
+}
+
+/* Rules Container */
+.mlnm-rules-container {
+	margin-top: var(--mlnm-spacing-md);
+}
+
+.mlnm-empty-state {
+	text-align: center;
+	padding: var(--mlnm-spacing-xl);
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+/* Rule Item */
+.mlnm-rule {
+	margin-bottom: var(--mlnm-spacing-sm);
+	padding: var(--mlnm-spacing-md);
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--mlnm-radius-md);
+	transition: border-color var(--mlnm-transition);
+}
+
+.mlnm-rule-incomplete {
+	border-color: var(--text-error);
+	border-style: dashed;
+}
+
+.mlnm-rule-child {
+	background: var(--background-primary);
+	border-style: solid;
+}
+
+/* Rule Row */
+.mlnm-rule-row {
+	display: flex;
+	align-items: center;
+	gap: var(--mlnm-spacing-sm);
+	flex-wrap: wrap;
+}
+
+/* Selects */
+.mlnm-select {
+	padding: var(--mlnm-spacing-xs) var(--mlnm-spacing-sm);
+	font-size: 13px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--mlnm-radius-sm);
+	background: var(--background-primary);
+	color: var(--text-normal);
+	cursor: pointer;
+	transition: border-color var(--mlnm-transition);
+}
+
+.mlnm-select:hover {
+	border-color: var(--interactive-accent);
+}
+
+.mlnm-select:focus {
+	outline: none;
+	border-color: var(--interactive-accent);
+	box-shadow: 0 0 0 2px var(--background-modifier-border);
+}
+
+.mlnm-tag-select {
+	min-width: 140px;
+}
+
+.mlnm-folder-select {
+	min-width: 180px;
+	flex: 1;
+}
+
+/* Arrow */
+.mlnm-arrow {
+	color: var(--text-muted);
+	font-size: 14px;
+	flex-shrink: 0;
+}
+
+/* Rule Actions */
+.mlnm-rule-actions {
+	display: flex;
+	gap: var(--mlnm-spacing-xs);
+	margin-left: auto;
+	flex-shrink: 0;
+}
+
+.mlnm-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	font-size: 16px;
+	font-weight: 500;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--mlnm-radius-sm);
+	background: var(--background-primary);
+	color: var(--text-muted);
+	cursor: pointer;
+	transition: all var(--mlnm-transition);
+}
+
+.mlnm-btn:hover {
+	border-color: var(--interactive-accent);
+	color: var(--text-normal);
+}
+
+.mlnm-btn-add:hover {
+	background: var(--interactive-accent);
+	border-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.mlnm-btn-delete:hover {
+	background: var(--text-error);
+	border-color: var(--text-error);
+	color: white;
+}
+
+/* Children Section */
+.mlnm-children-section {
+	margin-top: var(--mlnm-spacing-md);
+	padding-left: var(--mlnm-spacing-md);
+	border-left: 2px solid var(--background-modifier-border);
+}
+
+.mlnm-children-toggle {
+	display: flex;
+	align-items: center;
+	gap: var(--mlnm-spacing-xs);
+	padding: var(--mlnm-spacing-xs) 0;
+	margin-bottom: var(--mlnm-spacing-sm);
+	cursor: pointer;
+	user-select: none;
+}
+
+.mlnm-children-toggle:hover {
+	color: var(--text-accent);
+}
+
+.mlnm-children-toggle.collapsed {
+	opacity: 0.7;
+}
+
+.mlnm-toggle-icon {
+	font-size: 10px;
+	color: var(--text-muted);
+	transition: transform var(--mlnm-transition);
+}
+
+.mlnm-children-count {
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.mlnm-children-container {
+	padding-top: var(--mlnm-spacing-xs);
+}
+
+/* Help Section */
+.mlnm-help {
+	padding: var(--mlnm-spacing-md);
+	background: var(--background-secondary);
+	border-radius: var(--mlnm-radius-md);
+	margin-top: var(--mlnm-spacing-sm);
+}
+
+.mlnm-help ul {
+	margin: 0;
+	padding-left: var(--mlnm-spacing-lg);
+}
+
+.mlnm-help li {
+	margin: var(--mlnm-spacing-xs) 0;
+	font-size: 13px;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 600px) {
+	.mlnm-rule-row {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.mlnm-select {
+		width: 100%;
+	}
+
+	.mlnm-arrow {
+		display: none;
+	}
+
+	.mlnm-rule-actions {
+		margin-left: 0;
+		margin-top: var(--mlnm-spacing-sm);
+		justify-content: flex-end;
+	}
+}
