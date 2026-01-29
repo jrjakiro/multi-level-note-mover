@@ -34,8 +34,8 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 			(leaf) => new TagTreeView(leaf, this)
 		);
 
-		this.addRibbonIcon('folder-tree', 'Open Tag Tree', () => {
-			this.activateView();
+		this.addRibbonIcon('folder-tree', 'Open tag tree', () => {
+			void this.activateView();
 		});
 
 		this.registerCommands();
@@ -54,8 +54,8 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 	private registerCommands(): void {
 		this.addCommand({
 			id: 'open-tag-tree-view',
-			name: 'Open Tag Tree View',
-			callback: () => this.activateView()
+			name: 'Open tag tree view',
+			callback: () => { void this.activateView(); }
 		});
 
 		this.addCommand({
@@ -65,7 +65,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
 					if (!checking) {
-						this.moveNoteWithFeedback(activeFile);
+						void this.moveNoteWithFeedback(activeFile);
 					}
 					return true;
 				}
@@ -76,7 +76,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 		this.addCommand({
 			id: 'move-all-notes',
 			name: 'Move all notes by tags',
-			callback: () => this.moveAllNotes()
+			callback: () => { void this.moveAllNotes(); }
 		});
 
 		this.addCommand({
@@ -86,7 +86,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
 					if (!checking) {
-						this.previewMoveWithFeedback(activeFile);
+						void this.previewMoveWithFeedback(activeFile);
 					}
 					return true;
 				}
@@ -180,13 +180,13 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 	/**
 	 * Preview move with user feedback
 	 */
-	async previewMoveWithFeedback(file: TFile): Promise<void> {
+	previewMoveWithFeedback(file: TFile): void {
 		if (this.settings.rules.length === 0) {
 			new Notice('No folder rules configured. Add rules in settings.');
 			return;
 		}
 
-		const targetPath = await this.noteMover.previewMove(file, this.getMoveOptions());
+		const targetPath = this.noteMover.previewMove(file, this.getMoveOptions());
 		new Notice(`Would move to: ${targetPath}`);
 	}
 

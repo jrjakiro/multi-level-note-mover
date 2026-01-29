@@ -272,6 +272,10 @@
 	color: var(--text-normal);
 }
 
+.tag-tree-hidden {
+	display: none;
+}
+
 /* ============================================
    Settings Panel
    ============================================ */
@@ -450,6 +454,10 @@
 
 .mlnm-children-container {
 	padding-top: var(--mlnm-spacing-xs);
+}
+
+.mlnm-hidden {
+	display: none;
 }
 
 /* Help Section */

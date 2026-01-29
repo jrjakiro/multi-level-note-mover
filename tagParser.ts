@@ -108,7 +108,7 @@ export class TagParser {
 		}
 
 		// Extract hashtags from content body
-		const hashtagRegex = /#([a-zA-Z][a-zA-Z0-9_\-\/]*)/g;
+		const hashtagRegex = /#([a-zA-Z][a-zA-Z0-9_/-]*)/g;
 		let match;
 
 		while ((match = hashtagRegex.exec(contentBody)) !== null) {

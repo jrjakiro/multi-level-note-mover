@@ -150,7 +150,7 @@ export class NoteMover {
 	/**
 	 * Preview where a note would be moved
 	 */
-	async previewMove(file: TFile, options: MoveOptions): Promise<string> {
+	previewMove(file: TFile, options: MoveOptions): string {
 		const cache = this.app.metadataCache.getFileCache(file);
 		const tags = TagParser.extractTagsFromCache(cache);
 

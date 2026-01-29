@@ -101,9 +101,9 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		containerEl.addClass('mlnm-settings');
 
 		// Header
-		containerEl.createEl('h2', { text: 'Multi Level Note Mover' });
+		new Setting(containerEl).setName('Multi Level Note Mover').setHeading();
 
-		// General Settings Section
+		// General settings section
 		this.renderGeneralSettings(containerEl);
 
 		// Rules Section
@@ -114,16 +114,16 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 	}
 
 	private renderGeneralSettings(containerEl: HTMLElement): void {
-		containerEl.createEl('h3', { text: 'General Settings' });
+		new Setting(containerEl).setName('General settings').setHeading();
 
 		new Setting(containerEl)
 			.setName('Auto-move on save')
 			.setDesc('Automatically move notes when they are saved')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.autoMoveOnSave)
-				.onChange(async (value) => {
+				.onChange((value) => {
 					this.plugin.settings.autoMoveOnSave = value;
-					await this.plugin.saveSettings();
+					void this.plugin.saveSettings();
 				}));
 
 		new Setting(containerEl)
@@ -131,28 +131,28 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			.setDesc('Display notifications when notes are moved')
 			.addToggle(toggle => toggle
 				.setValue(this.plugin.settings.showNotifications)
-				.onChange(async (value) => {
+				.onChange((value) => {
 					this.plugin.settings.showNotifications = value;
-					await this.plugin.saveSettings();
+					void this.plugin.saveSettings();
 				}));
 
 		new Setting(containerEl)
 			.setName('Excluded folders')
 			.setDesc('Folders to exclude from auto-moving (comma-separated)')
 			.addText(text => text
-				.setPlaceholder('Templates, Archive, Daily Notes')
+				.setPlaceholder('Templates, Archive, Daily notes')
 				.setValue(this.plugin.settings.excludedFolders.join(', '))
-				.onChange(async (value) => {
+				.onChange((value) => {
 					this.plugin.settings.excludedFolders = value
 						.split(',')
 						.map(f => f.trim())
 						.filter(f => f.length > 0);
-					await this.plugin.saveSettings();
+					void this.plugin.saveSettings();
 				}));
 	}
 
 	private renderRulesSection(containerEl: HTMLElement): void {
-		containerEl.createEl('h3', { text: 'Folder Rules' });
+		new Setting(containerEl).setName('Folder rules').setHeading();
 
 		const rulesDesc = containerEl.createEl('p', {
 			cls: 'setting-item-description mlnm-rules-desc'
@@ -162,17 +162,16 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		// Add Rule Button
 		new Setting(containerEl)
 			.addButton(button => button
-				.setButtonText('+ Add Rule')
+				.setButtonText('+ Add rule')
 				.setCta()
-				.onClick(async () => {
+				.onClick(() => {
 					this.plugin.settings.rules.push({
 						id: generateId(),
 						tag: '',
 						folder: '',
 						children: []
 					});
-					await this.plugin.saveSettings();
-					this.display();
+					void this.plugin.saveSettings().then(() => this.display());
 				}));
 
 		// Get data for dropdowns
@@ -237,10 +236,9 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			opt.selected = true;
 		}
 
-		tagSelect.addEventListener('change', async () => {
+		tagSelect.addEventListener('change', () => {
 			rule.tag = tagSelect.value;
-			await this.plugin.saveSettings();
-			this.display();
+			void this.plugin.saveSettings().then(() => this.display());
 		});
 
 		// Arrow
@@ -264,9 +262,9 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			opt.selected = true;
 		}
 
-		folderSelect.addEventListener('change', async () => {
+		folderSelect.addEventListener('change', () => {
 			rule.folder = folderSelect.value;
-			await this.plugin.saveSettings();
+			void this.plugin.saveSettings();
 		});
 
 		// Actions
@@ -278,15 +276,14 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			attr: { 'aria-label': 'Add child rule' }
 		});
 		addChildBtn.setText('+');
-		addChildBtn.addEventListener('click', async () => {
+		addChildBtn.addEventListener('click', () => {
 			rule.children.push({
 				id: generateId(),
 				tag: '',
 				folder: '',
 				children: []
 			});
-			await this.plugin.saveSettings();
-			this.display();
+			void this.plugin.saveSettings().then(() => this.display());
 		});
 
 		// Delete Button
@@ -295,10 +292,9 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			attr: { 'aria-label': 'Delete rule' }
 		});
 		deleteBtn.setText('×');
-		deleteBtn.addEventListener('click', async () => {
+		deleteBtn.addEventListener('click', () => {
 			parentArray.splice(index, 1);
-			await this.plugin.saveSettings();
-			this.display();
+			void this.plugin.saveSettings().then(() => this.display());
 		});
 
 		// Children Section (Collapsible)
@@ -332,7 +328,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			let isCollapsed = false;
 			toggleHeader.addEventListener('click', () => {
 				isCollapsed = !isCollapsed;
-				childrenContainer.style.display = isCollapsed ? 'none' : 'block';
+				childrenContainer.toggleClass('mlnm-hidden', isCollapsed);
 				toggleIcon.setText(isCollapsed ? '▶' : '▼');
 				toggleHeader.classList.toggle('collapsed', isCollapsed);
 			});
@@ -340,7 +336,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 	}
 
 	private renderHelpSection(containerEl: HTMLElement): void {
-		containerEl.createEl('h3', { text: 'How It Works' });
+		new Setting(containerEl).setName('How it works').setHeading();
 
 		const helpEl = containerEl.createDiv({ cls: 'mlnm-help' });
 

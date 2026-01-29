@@ -41,9 +41,10 @@ export class TagTreeView extends ItemView {
 		await this.refresh();
 	}
 
-	async onClose(): Promise<void> {
+	onClose(): Promise<void> {
 		this.tagTree = null;
 		this.filesByTag.clear();
+		return Promise.resolve();
 	}
 
 	async refresh(): Promise<void> {
@@ -59,13 +60,13 @@ export class TagTreeView extends ItemView {
 		loadingEl.setText('Loading tags...');
 
 		try {
-			await this.buildTagTree();
+			this.buildTagTree();
 
 			container.empty();
 
 			// Header
 			const header = container.createDiv({ cls: 'tag-tree-header' });
-			header.createEl('h4', { text: 'Tag Tree' });
+			header.createEl('h4', { text: 'Tag tree' });
 
 			const buttonsEl = header.createDiv({ cls: 'tag-tree-header-buttons' });
 
@@ -74,14 +75,14 @@ export class TagTreeView extends ItemView {
 				attr: { 'aria-label': 'Refresh' }
 			});
 			setIcon(refreshBtn, 'refresh-cw');
-			refreshBtn.addEventListener('click', () => this.refresh());
+			refreshBtn.addEventListener('click', () => { void this.refresh(); });
 
 			const moveAllBtn = buttonsEl.createEl('button', {
 				cls: 'tag-tree-btn',
 				attr: { 'aria-label': 'Move all notes' }
 			});
 			setIcon(moveAllBtn, 'folder-input');
-			moveAllBtn.addEventListener('click', () => this.moveAllNotes());
+			moveAllBtn.addEventListener('click', () => { void this.moveAllNotes(); });
 
 			// Tree Content
 			const treeContainer = container.createDiv({ cls: 'tag-tree-content' });
@@ -109,7 +110,7 @@ export class TagTreeView extends ItemView {
 	/**
 	 * Build tag tree using metadata cache (fast)
 	 */
-	private async buildTagTree(): Promise<void> {
+	private buildTagTree(): void {
 		const allFiles = this.noteMover.getAllMarkdownFiles();
 		const allTags: string[] = [];
 		this.filesByTag.clear();
@@ -139,7 +140,7 @@ export class TagTreeView extends ItemView {
 
 			const nodeEl = container.createDiv({ cls: 'tag-tree-node' });
 			if (depth > 0) {
-				nodeEl.style.marginLeft = `${depth * 16}px`;
+				nodeEl.setCssStyles({ marginLeft: `${depth * 16}px` });
 			}
 
 			const nodeHeader = nodeEl.createDiv({ cls: 'tag-tree-node-header' });
@@ -175,16 +176,15 @@ export class TagTreeView extends ItemView {
 					attr: { 'aria-label': 'Move files with this tag' }
 				});
 				setIcon(moveBtn, 'folder-input');
-				moveBtn.addEventListener('click', async (e) => {
+				moveBtn.addEventListener('click', (e) => {
 					e.stopPropagation();
-					await this.moveNotesForTag(childNode.fullPath);
+					void this.moveNotesForTag(childNode.fullPath);
 				});
 			}
 
 			// Expandable Content
 			if (hasFiles || hasChildren) {
-				const contentEl = nodeEl.createDiv({ cls: 'tag-tree-node-content' });
-				contentEl.style.display = 'none';
+				const contentEl = nodeEl.createDiv({ cls: 'tag-tree-node-content tag-tree-hidden' });
 
 				// Files List
 				if (hasFiles) {
@@ -199,7 +199,7 @@ export class TagTreeView extends ItemView {
 
 						fileEl.addEventListener('click', (e) => {
 							e.stopPropagation();
-							this.app.workspace.getLeaf().openFile(file);
+							void this.app.workspace.getLeaf().openFile(file);
 						});
 					}
 				}
@@ -213,7 +213,7 @@ export class TagTreeView extends ItemView {
 				let isExpanded = false;
 				nodeHeader.addEventListener('click', () => {
 					isExpanded = !isExpanded;
-					contentEl.style.display = isExpanded ? 'block' : 'none';
+					contentEl.toggleClass('tag-tree-hidden', !isExpanded);
 					setIcon(expandIcon, isExpanded ? 'chevron-down' : 'chevron-right');
 					setIcon(folderIcon, isExpanded ? 'folder-open' : 'folder');
 					nodeHeader.classList.toggle('expanded', isExpanded);
