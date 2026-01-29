@@ -3,7 +3,7 @@
 	"name": "Multi Level Note Mover",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Automatically move notes based on tag hierarchy using a tree structure interface",
+	"description": "Automatically move notes based on tag hierarchy using a tree structure interface.",
 	"author": "JR (Jayachandran Ramadoss)",
 	"authorUrl": "https://github.com/jrjakiro",
 	"isDesktopOnly": false
