@@ -30,7 +30,7 @@ export class TagTreeView extends ItemView {
 	}
 
 	getDisplayText(): string {
-		return 'Tag Tree';
+		return 'Tag tree';
 	}
 
 	getIcon(): string {
@@ -38,7 +38,7 @@ export class TagTreeView extends ItemView {
 	}
 
 	async onOpen(): Promise<void> {
-		await this.refresh();
+		this.refresh();
 	}
 
 	onClose(): Promise<void> {
@@ -47,7 +47,7 @@ export class TagTreeView extends ItemView {
 		return Promise.resolve();
 	}
 
-	async refresh(): Promise<void> {
+	refresh(): void {
 		if (this.isLoading) return;
 		this.isLoading = true;
 
@@ -75,7 +75,7 @@ export class TagTreeView extends ItemView {
 				attr: { 'aria-label': 'Refresh' }
 			});
 			setIcon(refreshBtn, 'refresh-cw');
-			refreshBtn.addEventListener('click', () => { void this.refresh(); });
+			refreshBtn.addEventListener('click', () => { this.refresh(); });
 
 			const moveAllBtn = buttonsEl.createEl('button', {
 				cls: 'tag-tree-btn',
@@ -97,11 +97,11 @@ export class TagTreeView extends ItemView {
 					cls: 'tag-tree-empty-hint'
 				});
 			}
-		} catch (error) {
+		} catch {
 			container.empty();
 			const errorEl = container.createDiv({ cls: 'tag-tree-error' });
 			errorEl.setText('Failed to load tags. Click to retry.');
-			errorEl.addEventListener('click', () => this.refresh());
+			errorEl.addEventListener('click', () => { this.refresh(); });
 		} finally {
 			this.isLoading = false;
 		}
@@ -240,7 +240,7 @@ export class TagTreeView extends ItemView {
 
 		if (movedCount > 0) {
 			new Notice(`Moved ${movedCount} note(s)`);
-			await this.refresh();
+			this.refresh();
 		} else {
 			new Notice('No notes were moved');
 		}
@@ -265,6 +265,6 @@ export class TagTreeView extends ItemView {
 		const movedCount = results.filter(r => r.success && r.moved).length;
 
 		new Notice(`Moved ${movedCount} of ${allFiles.length} note(s)`);
-		await this.refresh();
+		this.refresh();
 	}
 }

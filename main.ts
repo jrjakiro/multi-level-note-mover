@@ -3,10 +3,6 @@ import { MultiLevelNoteMoverSettings, DEFAULT_SETTINGS, MultiLevelNoteMoverSetti
 import { NoteMover } from './noteMover';
 import { TagTreeView, VIEW_TYPE_TAG_TREE } from './treeView';
 
-/** Plugin ID constant */
-const PLUGIN_ID = 'multi-level-note-mover';
-const STYLE_ID = `${PLUGIN_ID}-styles`;
-
 /**
  * Multi Level Note Mover Plugin
  * Automatically organizes notes into folders based on their tags using hierarchical rules.
@@ -24,7 +20,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 
 		// Create debounced move function (300ms delay)
 		this.debouncedMoveNote = debounce(
-			(file: TFile) => this.moveNote(file),
+			(file: TFile) => { void this.moveNote(file); },
 			300,
 			true
 		);
@@ -150,7 +146,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 
 		if (this.settings.showNotifications && result.success && result.moved) {
 			const folderPath = result.newPath.substring(0, result.newPath.lastIndexOf('/'));
-			new Notice(`Note Moved to "${folderPath}"`);
+			new Notice(`Note moved to "${folderPath}"`);
 		}
 	}
 
@@ -168,7 +164,7 @@ export default class MultiLevelNoteMoverPlugin extends Plugin {
 		if (result.success) {
 			if (result.moved) {
 				const folderPath = result.newPath.substring(0, result.newPath.lastIndexOf('/'));
-				new Notice(`Note Moved to "${folderPath}"`);
+				new Notice(`Note moved to "${folderPath}"`);
 			} else {
 				new Notice(`${file.basename} is already in the correct location`);
 			}

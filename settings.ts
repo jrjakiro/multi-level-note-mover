@@ -101,7 +101,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		containerEl.addClass('mlnm-settings');
 
 		// Header
-		new Setting(containerEl).setName('Multi Level Note Mover').setHeading();
+		new Setting(containerEl).setName('Organize notes by tags').setHeading();
 
 		// General settings section
 		this.renderGeneralSettings(containerEl);
@@ -114,7 +114,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 	}
 
 	private renderGeneralSettings(containerEl: HTMLElement): void {
-		new Setting(containerEl).setName('General settings').setHeading();
+		new Setting(containerEl).setName('Behavior').setHeading();
 
 		new Setting(containerEl)
 			.setName('Auto-move on save')
@@ -162,7 +162,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		// Add Rule Button
 		new Setting(containerEl)
 			.addButton(button => button
-				.setButtonText('+ Add rule')
+				.setButtonText('Add rule')
 				.setCta()
 				.onClick(() => {
 					this.plugin.settings.rules.push({
@@ -171,7 +171,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 						folder: '',
 						children: []
 					});
-					void this.plugin.saveSettings().then(() => this.display());
+					this.plugin.saveSettings().then(() => this.display()).catch(() => {});
 				}));
 
 		// Get data for dropdowns
@@ -238,7 +238,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 
 		tagSelect.addEventListener('change', () => {
 			rule.tag = tagSelect.value;
-			void this.plugin.saveSettings().then(() => this.display());
+			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
 		});
 
 		// Arrow
@@ -283,7 +283,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 				folder: '',
 				children: []
 			});
-			void this.plugin.saveSettings().then(() => this.display());
+			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
 		});
 
 		// Delete Button
@@ -294,7 +294,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		deleteBtn.setText('×');
 		deleteBtn.addEventListener('click', () => {
 			parentArray.splice(index, 1);
-			void this.plugin.saveSettings().then(() => this.display());
+			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
 		});
 
 		// Children Section (Collapsible)

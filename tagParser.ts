@@ -97,7 +97,7 @@ export class TagParser {
 
 			// Single value: tags: sometag
 			if (!inlineMatch && !listMatch) {
-				const singleMatch = frontmatter.match(/tags:\s*([^\n\[\]]+)/);
+				const singleMatch = frontmatter.match(/tags:\s*([^\n[\]]+)/);
 				if (singleMatch) {
 					const tag = singleMatch[1].trim().replace(/['"#]/g, '');
 					if (tag) {
