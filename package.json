@@ -1,6 +1,6 @@
 {
 	"name": "multi-level-note-mover",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Automatically move notes based on tag hierarchy using a tree structure interface",
 	"main": "main.js",
 	"scripts": {

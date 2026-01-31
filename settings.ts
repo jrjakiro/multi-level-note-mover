@@ -349,6 +349,6 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 		list.createEl('li', { text: 'Add child rules to create nested folder structures' });
 		list.createEl('li', { text: 'Example: #work → Work/, child #project → Project/ results in Work/Project/' });
 		list.createEl('li', { text: 'Notes are moved to the deepest matching rule path' });
-		list.createEl('li', { text: 'Missing folders are created automatically' });
+		list.createEl('li', { text: 'Target folders must exist before moving notes' });
 	}
 }
