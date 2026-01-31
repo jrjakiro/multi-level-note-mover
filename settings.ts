@@ -164,14 +164,15 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			.addButton(button => button
 				.setButtonText('Add rule')
 				.setCta()
-				.onClick(() => {
+				.onClick(async () => {
 					this.plugin.settings.rules.push({
 						id: generateId(),
 						tag: '',
 						folder: '',
 						children: []
 					});
-					this.plugin.saveSettings().then(() => this.display()).catch(() => {});
+					await this.plugin.saveSettings();
+					this.display();
 				}));
 
 		// Get data for dropdowns
@@ -223,7 +224,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 
 		// Tag Select
 		const tagSelect = ruleRow.createEl('select', { cls: 'mlnm-select mlnm-tag-select' });
-		tagSelect.createEl('option', { text: 'Select tag...', value: '' });
+		tagSelect.createEl('option', { text: 'Select a tag', value: '' });
 
 		for (const tag of availableTags) {
 			const opt = tagSelect.createEl('option', { text: `#${tag}`, value: tag });
@@ -236,9 +237,10 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			opt.selected = true;
 		}
 
-		tagSelect.addEventListener('change', () => {
+		tagSelect.addEventListener('change', async () => {
 			rule.tag = tagSelect.value;
-			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
+			await this.plugin.saveSettings();
+			this.display();
 		});
 
 		// Arrow
@@ -246,7 +248,7 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 
 		// Folder Select
 		const folderSelect = ruleRow.createEl('select', { cls: 'mlnm-select mlnm-folder-select' });
-		folderSelect.createEl('option', { text: 'Select folder...', value: '' });
+		folderSelect.createEl('option', { text: 'Select a folder', value: '' });
 
 		for (const folder of availableFolders) {
 			const opt = folderSelect.createEl('option', { text: folder, value: folder });
@@ -276,14 +278,15 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			attr: { 'aria-label': 'Add child rule' }
 		});
 		addChildBtn.setText('+');
-		addChildBtn.addEventListener('click', () => {
+		addChildBtn.addEventListener('click', async () => {
 			rule.children.push({
 				id: generateId(),
 				tag: '',
 				folder: '',
 				children: []
 			});
-			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
+			await this.plugin.saveSettings();
+			this.display();
 		});
 
 		// Delete Button
@@ -292,9 +295,10 @@ export class MultiLevelNoteMoverSettingTab extends PluginSettingTab {
 			attr: { 'aria-label': 'Delete rule' }
 		});
 		deleteBtn.setText('×');
-		deleteBtn.addEventListener('click', () => {
+		deleteBtn.addEventListener('click', async () => {
 			parentArray.splice(index, 1);
-			this.plugin.saveSettings().then(() => this.display()).catch(() => {});
+			await this.plugin.saveSettings();
+			this.display();
 		});
 
 		// Children Section (Collapsible)

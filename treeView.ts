@@ -37,8 +37,9 @@ export class TagTreeView extends ItemView {
 		return 'folder-tree';
 	}
 
-	async onOpen(): Promise<void> {
+	onOpen(): Promise<void> {
 		this.refresh();
+		return Promise.resolve();
 	}
 
 	onClose(): Promise<void> {
